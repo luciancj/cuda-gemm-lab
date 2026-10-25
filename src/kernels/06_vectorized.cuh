@@ -24,8 +24,8 @@ __global__ void __launch_bounds__((BM * BN) / (TM * TN))
     static_assert(kThreads % (BN / 4) == 0 && BK % (kThreads / (BN / 4)) == 0,
                   "threads must tile the B block evenly");
 
-    __shared__ alignas(16) float As[BK * BM];  // transposed: As[k * BM + m]
-    __shared__ alignas(16) float Bs[BK * BN];
+    __shared__ __align__(16) float As[BK * BM];  // transposed: As[k * BM + m]
+    __shared__ __align__(16) float Bs[BK * BN];
 
     const int threadCol = threadIdx.x % (BN / TN);
     const int threadRow = threadIdx.x / (BN / TN);
